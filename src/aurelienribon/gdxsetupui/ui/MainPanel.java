@@ -88,7 +88,8 @@ public class MainPanel extends PaintedPanel {
 		versionLabel.initAndCheck("3.0.0", "versions",
 			"https://raw.github.com/libgdx/libgdx/master/extensions/gdx-setup-ui/config/config.txt",
 			"https://github.com/AurelienRibon/gdx-setup-ui/downloads");
-
+		//versionLabel.setVisible(false);
+		
 		initUI();
 		initLibgdx();
 		initStyle();
@@ -150,7 +151,7 @@ public class MainPanel extends PaintedPanel {
 		aboutLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		versionLabel.setLayout(new BorderLayout());
 		versionLabel.add(aboutLabel, BorderLayout.EAST);
-
+		
 		aboutLabel.addMouseListener(new MouseAdapter() {
 			@Override public void mousePressed(MouseEvent e) {showAboutPanel();}
 		});

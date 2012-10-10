@@ -33,6 +33,11 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
 		nameField.setText(Ctx.cfgSetup.projectName);
 		packageField.setText(Ctx.cfgSetup.packageName);
 		mainClassField.setText(Ctx.cfgSetup.mainClassName);
+		stageWidthField.setText(Ctx.cfgSetup.stageWidth);
+		stageHeightField.setText(Ctx.cfgSetup.stageHeight);
+		gameWidthField.setText(Ctx.cfgSetup.gameWidth);
+		gameHeightField.setText(Ctx.cfgSetup.gameHeight);
+		zoomField.setText(Ctx.cfgSetup.zoom);
 
 		try {
 			File destDir = new File(Ctx.cfgSetup.destinationPath);
@@ -50,6 +55,14 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
 		mainClassField.addMouseListener(selectOnFocusMouseListener);
 		mainClassField.addKeyListener(updateOnTypeKeyListener);
 		mainClassField.addKeyListener(mainClassNameKeyListener);
+		stageWidthField.addMouseListener(selectOnFocusMouseListener);
+		stageWidthField.addKeyListener(updateOnTypeKeyListener);
+		gameWidthField.addMouseListener(selectOnFocusMouseListener);
+		gameWidthField.addKeyListener(updateOnTypeKeyListener);
+		gameHeightField.addMouseListener(selectOnFocusMouseListener);
+		gameHeightField.addKeyListener(updateOnTypeKeyListener);
+		zoomField.addMouseListener(selectOnFocusMouseListener);
+		zoomField.addKeyListener(updateOnTypeKeyListener);
 
 		browseBtn.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {browse();}});
 		genDesktopPrjChk.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {update();}});
@@ -102,6 +115,11 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
 		Ctx.cfgSetup.destinationPath = destinationField.getText();
 		Ctx.cfgSetup.isDesktopIncluded = genDesktopPrjChk.isSelected();
 		Ctx.cfgSetup.isAndroidIncluded = genAndroidPrjChk.isSelected();
+		Ctx.cfgSetup.stageWidth = stageWidthField.getText();
+		Ctx.cfgSetup.stageHeight = stageHeightField.getText();
+		Ctx.cfgSetup.gameWidth = gameWidthField.getText();
+		Ctx.cfgSetup.gameHeight = gameHeightField.getText();
+		Ctx.cfgSetup.zoom = zoomField.getText();
 		//Ctx.cfgSetup.isHtmlIncluded = genHtmlPrjChk.isSelected();
 		Ctx.fireCfgSetupChanged();
 	}
@@ -197,17 +215,27 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         headerPanel = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        headerLabel = new javax.swing.JLabel();
         numberLabel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         destinationField = new javax.swing.JTextField();
         nameField = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        packageLabel = new javax.swing.JLabel();
         packageField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        nameLabel = new javax.swing.JLabel();
+        destinationLabel = new javax.swing.JLabel();
+        mainClassLabel = new javax.swing.JLabel();
         mainClassField = new javax.swing.JTextField();
+        stageWidthLabel = new javax.swing.JLabel();
+        stageWidthField = new javax.swing.JTextField();
+        stageHeightLabel = new javax.swing.JLabel();
+        stageHeightField = new javax.swing.JTextField();
+        gameWidthLabel = new javax.swing.JLabel();
+        gameWidthField = new javax.swing.JTextField();
+        gameHeightLabel = new javax.swing.JLabel();
+        gameHeightField = new javax.swing.JTextField();
+        zoomLabel = new javax.swing.JLabel();
+        zoomField = new javax.swing.JTextField();
         advancedSettingsLabel = new javax.swing.JLabel();
         browseBtn = new aurelienribon.ui.components.Button();
         genCorePrjChk = new aurelienribon.ui.CompactCheckBox();
@@ -217,8 +245,8 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        jLabel4.setText("<html> Main parameters defining your project. See the overview panel to know if it suits your needs.");
-        jLabel4.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        headerLabel.setText("<html> Main parameters defining your project. See the overview panel to know if it suits your needs.");
+        headerLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         numberLabel.setText("1");
 
@@ -229,11 +257,11 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
                 .addComponent(numberLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE))
+                .addComponent(headerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE))
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(headerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(numberLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -243,18 +271,33 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
 
         destinationField.setEditable(false);
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Package");
+        packageLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        packageLabel.setText("Package");
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("Name");
+        nameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        nameLabel.setText("Name");
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("Destination");
+        destinationLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        destinationLabel.setText("Destination");
 
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("Game class");
+        mainClassLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        mainClassLabel.setText("Game class");
+        
+        stageWidthLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        stageWidthLabel.setText("StageWidth");
+        
+        stageHeightLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        stageHeightLabel.setText("StageHeight");
 
+        gameWidthLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		gameWidthLabel.setText("GameWidth");
+		
+		gameHeightLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		gameHeightLabel.setText("GameHeight");
+		
+		zoomLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		zoomLabel.setText("Zoom");
+        
         advancedSettingsLabel.setText("Show advanced settings >");
 
         browseBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/gfx/ic_folder.png"))); // NOI18N
@@ -282,17 +325,17 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(nameField, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(packageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(packageField))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(destinationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(mainClassLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -300,7 +343,27 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(browseBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(mainClassField)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+						.addComponent(stageWidthLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(stageWidthField, javax.swing.GroupLayout.DEFAULT_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+						.addComponent(stageHeightLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(stageHeightField, javax.swing.GroupLayout.DEFAULT_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+					.addGroup(jPanel1Layout.createSequentialGroup()
+						.addComponent(gameWidthLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(gameWidthField, javax.swing.GroupLayout.DEFAULT_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+						.addComponent(gameHeightLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(gameHeightField, javax.swing.GroupLayout.DEFAULT_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+						.addComponent(zoomLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(zoomField, javax.swing.GroupLayout.DEFAULT_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))	
+					.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(advancedSettingsLabel))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -317,21 +380,44 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(nameLabel)
                     .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(packageLabel)
                     .addComponent(packageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
+                    .addComponent(mainClassLabel)
                     .addComponent(mainClassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(destinationLabel)
                     .addComponent(destinationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(browseBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+				.addGroup(
+					jPanel1Layout
+						.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+						.addComponent(stageWidthLabel)
+						.addComponent(stageWidthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+							javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addComponent(stageHeightLabel)
+						.addComponent(stageHeightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+							javax.swing.GroupLayout.PREFERRED_SIZE))
+				.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+				.addGroup(
+					jPanel1Layout
+						.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+						.addComponent(gameWidthLabel)
+						.addComponent(gameWidthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+							javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addComponent(gameHeightLabel)
+						.addComponent(gameHeightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+							javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addComponent(zoomLabel)
+						.addComponent(zoomField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+							javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(genCorePrjChk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -345,7 +431,8 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {browseBtn, destinationField, jLabel1, jLabel2, jLabel3, jLabel5, mainClassField, nameField, packageField});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {browseBtn, destinationField, nameLabel, packageLabel, destinationLabel, mainClassLabel, mainClassField, nameField, packageField,
+        	stageWidthLabel, stageWidthField, stageHeightLabel, stageHeightField, gameWidthLabel, gameWidthField, gameHeightLabel, gameHeightField, zoomLabel, zoomField});
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -359,16 +446,26 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
     private aurelienribon.ui.CompactCheckBox genDesktopPrjChk;
     private aurelienribon.ui.CompactCheckBox genHtmlPrjChk;
     private javax.swing.JPanel headerPanel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JLabel packageLabel;
+    private javax.swing.JLabel destinationLabel;
+    private javax.swing.JLabel headerLabel;
+    private javax.swing.JLabel mainClassLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField mainClassField;
     private javax.swing.JTextField nameField;
     private javax.swing.JLabel numberLabel;
     private javax.swing.JTextField packageField;
+    private javax.swing.JLabel stageWidthLabel;
+    private javax.swing.JTextField stageWidthField;
+    private javax.swing.JLabel stageHeightLabel;
+    private javax.swing.JTextField stageHeightField;
+    private javax.swing.JLabel gameWidthLabel;
+    private javax.swing.JTextField gameWidthField;
+    private javax.swing.JLabel gameHeightLabel;
+    private javax.swing.JTextField gameHeightField;
+    private javax.swing.JLabel zoomLabel;
+    private javax.swing.JTextField zoomField;
     // End of variables declaration//GEN-END:variables
 
 }

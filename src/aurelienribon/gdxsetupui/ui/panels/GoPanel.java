@@ -35,7 +35,7 @@ public class GoPanel extends javax.swing.JPanel {
 					case UPDATE: mainPanel.showProcessUpdatePanel(); break;
 				}
 			}
-		});
+		});		
     }
 
 	private void update() {
@@ -54,7 +54,7 @@ public class GoPanel extends javax.swing.JPanel {
 					errorLabel.firePropertyChange("error", false, true);
 				}
 
-				numberLabel.setText("4");
+				numberLabel.setText("3");
 				goBtn.setText("Open the generation screen");
 				break;
 

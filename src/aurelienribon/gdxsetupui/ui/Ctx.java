@@ -12,7 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class Ctx {
 	public static enum Mode {INIT, SETUP, UPDATE}
-	public static Mode mode = Mode.INIT;
+	public static Mode mode = Mode.SETUP;
 
 	public static final ProjectSetupConfiguration cfgSetup = new ProjectSetupConfiguration();
 	public static final ProjectUpdateConfiguration cfgUpdate = new ProjectUpdateConfiguration();

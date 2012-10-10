@@ -95,7 +95,7 @@ aurelienribon-ui-CompactCheckBox:disabled {
  ******************************************************************************/
 
 .rootPanel {
-	-ar-fill: texture(url("/res/gfx/bg.png"));
+	-ar-fill: texture(url("/res/gfx/bgtile.gif"));
 }
 
 .rootPanel > javax-swing-JLabel {

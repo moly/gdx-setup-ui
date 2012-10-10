@@ -9,7 +9,7 @@ import java.util.Map;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public abstract class BaseProjectConfiguration {
-	public String projectName = "my-gdx-game";
+	public String projectName = "flixelgame";
 	public String destinationPath = ".";
 	public boolean isDesktopIncluded = false;
 	public boolean isAndroidIncluded = false;

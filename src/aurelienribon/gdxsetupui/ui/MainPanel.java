@@ -93,7 +93,7 @@ public class MainPanel extends PaintedPanel {
 		initLibgdx();
 		initStyle();
 		initConfigurations();
-		rootPanel.initialize(initCfg);
+		rootPanel.initialize(setupCfg);
 
 		SLAnimator.start();
 		rootPanel.setTweenManager(SLAnimator.createTweenManager());
@@ -115,6 +115,8 @@ public class MainPanel extends PaintedPanel {
 				Ctx.libs.cleanUpDownloads();
 			}
 		});
+		
+		Ctx.fireModeChangedChanged();
 	}
 
 	private void initLibgdx() {
@@ -255,9 +257,9 @@ public class MainPanel extends PaintedPanel {
 
 		setupCfg = new SLConfig(rootPanel)
 			.gap(gap, gap)
-			.row(1f).row(30).col(1f)
+			.row(1f).col(1f)
 			.beginGrid(0, 0)
-				.row(1f).col(1f).col(1f).col(1f)
+				.row(1f).col(1f).col(1f)
 				.beginGrid(0, 0)
 					.row(configSetupPanel.getPreferredSize().height)
 					.row(versionLabel.getPreferredSize().height)
@@ -265,24 +267,24 @@ public class MainPanel extends PaintedPanel {
 					.place(0, 0, configSetupPanel)
 					.place(1, 0, versionLabel)
 				.endGrid()
+				//.beginGrid(0, 1)
+					//.row(1f)
+					//.col(1f)
+					//.place(0, 0, librarySelectionPanel)
+				//.endGrid()
 				.beginGrid(0, 1)
-					.row(1f)
-					.col(1f)
-					.place(0, 0, librarySelectionPanel)
-				.endGrid()
-				.beginGrid(0, 2)
 					.row(1f)
 					.row(goPanel.getPreferredSize().height)
 					.col(1f)
 					.place(0, 0, previewPanel)
 					.place(1, 0, goPanel)
 				.endGrid()
-			.endGrid()
-			.beginGrid(1, 0)
-				.row(1f).col(100).col(1f)
-				.place(0, 0, changeModeBtn)
-				.place(0, 1, taskPanel)
 			.endGrid();
+			//.beginGrid(1, 0)
+				//.row(1f).col(100).col(1f)
+				//.place(0, 0, changeModeBtn)
+				//.place(0, 1, taskPanel)
+			//.endGrid();
 
 		updateCfg = new SLConfig(rootPanel)
 			.gap(gap, gap)
@@ -296,12 +298,12 @@ public class MainPanel extends PaintedPanel {
 					.place(0, 0, configUpdatePanel)
 					.place(1, 0, versionLabel)
 				.endGrid()
+				//.beginGrid(0, 1)
+					//.row(1f)
+					//.col(1f)
+					//.place(0, 0, librarySelectionPanel)
+				//.endGrid()
 				.beginGrid(0, 1)
-					.row(1f)
-					.col(1f)
-					.place(0, 0, librarySelectionPanel)
-				.endGrid()
-				.beginGrid(0, 2)
 					.row(goPanel.getPreferredSize().height)
 					.col(1f)
 					.place(0, 0, goPanel)
@@ -359,7 +361,7 @@ public class MainPanel extends PaintedPanel {
 			.place(0, 1, processUpdatePanel);
 
 		aboutCfg = new SLConfig(rootPanel)
-			.gap(250, 100)
+			.gap(150, 100)
 			.row(1f).col(1f)
 			.place(0, 0, aboutPanel);
 
@@ -516,7 +518,7 @@ public class MainPanel extends PaintedPanel {
 	public void showProcessSetupPanel() {
 		rootPanel.createTransition()
 			.push(new SLKeyframe(setupProcessCfg, transitionDuration)
-				.setEndSide(TOP, configSetupPanel, versionLabel, librarySelectionPanel)
+				.setEndSide(TOP, configSetupPanel, versionLabel)//, librarySelectionPanel)
 				.setEndSide(BOTTOM, taskPanel, changeModeBtn, goPanel)
 				.setStartSide(BOTTOM, processSetupPanel))
 			.play();
@@ -526,7 +528,7 @@ public class MainPanel extends PaintedPanel {
 		rootPanel.createTransition()
 			.push(new SLKeyframe(setupCfg, transitionDuration)
 				.setEndSide(BOTTOM, processSetupPanel)
-				.setStartSide(TOP, configSetupPanel, versionLabel, librarySelectionPanel)
+				.setStartSide(TOP, configSetupPanel, versionLabel)//, librarySelectionPanel)
 				.setStartSide(BOTTOM, taskPanel, changeModeBtn, goPanel))
 			.play();
 	}
@@ -534,7 +536,7 @@ public class MainPanel extends PaintedPanel {
 	public void showProcessUpdatePanel() {
 		rootPanel.createTransition()
 			.push(new SLKeyframe(updateProcessCfg, transitionDuration)
-				.setEndSide(TOP, configUpdatePanel, versionLabel, librarySelectionPanel)
+				.setEndSide(TOP, configUpdatePanel, versionLabel)//, librarySelectionPanel)
 				.setEndSide(BOTTOM, taskPanel, changeModeBtn, goPanel)
 				.setStartSide(BOTTOM, classpathsPanel)
 				.setStartSide(TOP, processUpdatePanel))
@@ -546,7 +548,7 @@ public class MainPanel extends PaintedPanel {
 			.push(new SLKeyframe(updateCfg, transitionDuration)
 				.setEndSide(BOTTOM, classpathsPanel)
 				.setEndSide(TOP, processUpdatePanel)
-				.setStartSide(TOP, configUpdatePanel, versionLabel, librarySelectionPanel)
+				.setStartSide(TOP, configUpdatePanel, versionLabel)//, librarySelectionPanel)
 				.setStartSide(BOTTOM, taskPanel, changeModeBtn, goPanel))
 			.play();
 	}

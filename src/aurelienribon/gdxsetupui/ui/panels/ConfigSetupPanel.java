@@ -54,7 +54,7 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
 		browseBtn.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {browse();}});
 		genDesktopPrjChk.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {update();}});
 		genAndroidPrjChk.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {update();}});
-		genHtmlPrjChk.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {update();}});
+		//genHtmlPrjChk.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {update();}});
 
 		advancedSettingsLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		advancedSettingsLabel.addMouseListener(new MouseAdapter() {
@@ -102,7 +102,7 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
 		Ctx.cfgSetup.destinationPath = destinationField.getText();
 		Ctx.cfgSetup.isDesktopIncluded = genDesktopPrjChk.isSelected();
 		Ctx.cfgSetup.isAndroidIncluded = genAndroidPrjChk.isSelected();
-		Ctx.cfgSetup.isHtmlIncluded = genHtmlPrjChk.isSelected();
+		//Ctx.cfgSetup.isHtmlIncluded = genHtmlPrjChk.isSelected();
 		Ctx.fireCfgSetupChanged();
 	}
 
@@ -261,17 +261,18 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
 
         genCorePrjChk.setEnabled(false);
         genCorePrjChk.setSelected(true);
-        genCorePrjChk.setText("Generate the core project (required)");
+        genCorePrjChk.setText("Generate core project (required)");
 
         genAndroidPrjChk.setEnabled(false);
         genAndroidPrjChk.setSelected(true);
-        genAndroidPrjChk.setText("Generate the android project (required)");
+        genAndroidPrjChk.setText("Generate android project (required)");
 
-        genDesktopPrjChk.setSelected(true);
-        genDesktopPrjChk.setText("Generate the desktop project");
-
-        genHtmlPrjChk.setSelected(true);
-        genHtmlPrjChk.setText("Generate the html project");
+        genDesktopPrjChk.setSelected(Ctx.cfgSetup.isDesktopIncluded);
+        genDesktopPrjChk.setText("Generate desktop project");
+        
+        genHtmlPrjChk.setSelected(Ctx.cfgSetup.isHtmlIncluded);
+        genHtmlPrjChk.setText("Generate html project");
+        genHtmlPrjChk.setVisible(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

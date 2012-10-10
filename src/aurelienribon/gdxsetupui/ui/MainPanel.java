@@ -327,11 +327,13 @@ public class MainPanel extends PaintedPanel {
 
 		setupAdvSettingsCfg = new SLConfig(rootPanel)
 			.gap(gap, gap)
-			.row(1f).col(1f).col(2f)
+			.row(1f).col(1f).col(1f)
 			.beginGrid(0, 0)
 				.row(configSetupPanel.getPreferredSize().height)
+				.row(versionLabel.getPreferredSize().height)
 				.col(1f)
 				.place(0, 0, configSetupPanel)
+				.place(1, 0, versionLabel)
 			.endGrid()
 			.place(0, 1, advancedSettingsPanel);
 

@@ -11,8 +11,8 @@ import java.util.Map;
 public abstract class BaseProjectConfiguration {
 	public String projectName = "flixelgame";
 	public String destinationPath = ".";
-	public boolean isDesktopIncluded = false;
-	public boolean isAndroidIncluded = false;
+	public boolean isDesktopIncluded = true;
+	public boolean isAndroidIncluded = true;
 	public boolean isHtmlIncluded = false;
 	public String suffixCommon = "";
 	public String suffixDesktop = "-desktop";

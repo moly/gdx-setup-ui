@@ -24,7 +24,9 @@ import org.apache.commons.io.FilenameUtils;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class PreviewPanel extends javax.swing.JPanel {
-    public PreviewPanel() {
+    
+	private static final long serialVersionUID = -8149850737629540017L;
+	public PreviewPanel() {
         initComponents();
 		Style.registerCssClasses(headerPanel, ".header");
 		Style.registerCssClasses(numberLabel, ".headerNumber");
@@ -41,6 +43,10 @@ public class PreviewPanel extends javax.swing.JPanel {
 	// -------------------------------------------------------------------------
 
 	public class ResultTree extends JTree {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6323814623399783778L;
 		private final Map<String, DefaultMutableTreeNode> nodes = new TreeMap<String, DefaultMutableTreeNode>();
 		private final DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode();
 
@@ -120,6 +126,7 @@ public class PreviewPanel extends javax.swing.JPanel {
 			DefaultMutableTreeNode commonSrcNode = nodes.get("#DIR#prj-common/src");
 			DefaultMutableTreeNode commonSrcAppNode = nodes.get("prj-common/src/MyGame.java");
 			DefaultMutableTreeNode commonSrcAppGwtNode = nodes.get("prj-common/src/MyGame.gwt.xml");
+			DefaultMutableTreeNode commonSrcPlayStateNode = nodes.get("prj-common/src/PlayState.java");
 
 			commonSrcNode.removeAllChildren();
 			previousNode = commonSrcNode;
@@ -131,13 +138,15 @@ public class PreviewPanel extends javax.swing.JPanel {
 					previousNode.add(node);
 					previousNode = node;
 				}
-				previousNode.add(commonSrcAppNode);
-				commonSrcNode.add(commonSrcAppGwtNode);
-			} else {
-				commonSrcNode.add(commonSrcAppNode);
-				commonSrcNode.add(commonSrcAppGwtNode);
 			}
-
+			
+			previousNode.add(commonSrcAppNode);
+			previousNode.add(commonSrcPlayStateNode);
+			
+			
+			if (Ctx.cfgSetup.isHtmlIncluded)
+				commonSrcNode.add(commonSrcAppGwtNode);
+			
 			// desktop
 
 			DefaultMutableTreeNode desktopSrcNode = nodes.get("#DIR#prj-desktop/src");
@@ -278,7 +287,7 @@ public class PreviewPanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

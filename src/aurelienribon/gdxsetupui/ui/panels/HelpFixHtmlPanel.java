@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class HelpFixHtmlPanel extends javax.swing.JPanel {
-    public HelpFixHtmlPanel(final MainPanel mainPanel) {
+    
+	private static final long serialVersionUID = 8222200822154178586L;
+	public HelpFixHtmlPanel(final MainPanel mainPanel) {
         initComponents();
 
 		Style.registerCssClasses(num1, ".helpNumber");
@@ -27,7 +29,7 @@ public class HelpFixHtmlPanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

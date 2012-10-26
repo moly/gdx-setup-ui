@@ -21,4 +21,5 @@ public abstract class BaseProjectConfiguration {
 
 	public final List<String> libraries = new ArrayList<String>();
 	public final Map<String, String> librariesZipPaths = new HashMap<String, String>();
+	public String projectsZipPath = null;
 }

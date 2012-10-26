@@ -1,5 +1,6 @@
 package aurelienribon.gdxsetupui;
 
+import aurelienribon.gdxsetupui.ui.Ctx;
 import aurelienribon.utils.HttpUtils;
 import aurelienribon.utils.HttpUtils.DownloadListener;
 import aurelienribon.utils.HttpUtils.DownloadTask;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * The library manager job is to retrieve the master configuration file,
@@ -25,6 +27,7 @@ public class LibraryManager {
 	private final List<String> libraries = new ArrayList<String>();
 	private final Map<String, String> librariesUrls = new HashMap<String, String>();
 	private final Map<String, LibraryDef> librariesDefs = new HashMap<String, LibraryDef>();
+	private String projectsUrl;
 
 	public LibraryManager(String configUrl) {
 		this.configUrl = configUrl;
@@ -45,6 +48,7 @@ public class LibraryManager {
 		task.addListener(new DownloadListener() {
 			@Override public void onComplete() {
 				parseLibraries(output.toString());
+				parseProjectsUrl(output.toString());
 			}
 		});
 
@@ -103,7 +107,7 @@ public class LibraryManager {
 	public List<String> getNames() {return Collections.unmodifiableList(libraries);}
 	public String getUrl(String name) {return librariesUrls.get(name);}
 	public LibraryDef getDef(String name) {return librariesDefs.get(name);}
-
+	public String getProjectsUrl() {return projectsUrl;}
 	// -------------------------------------------------------------------------
 	// Helpers
 	// -------------------------------------------------------------------------
@@ -121,6 +125,18 @@ public class LibraryManager {
 		}
 	}
 
+	private void parseProjectsUrl(String str) {
+		projectsUrl = ParseUtils.parseBlock(str, "projects", null);
+
+		String zipName = FilenameUtils.getName(projectsUrl);
+		
+		for (File file : new File(".").listFiles()) {
+			if (file.isFile()) {
+				if (file.getName().equals(zipName)) Ctx.cfgSetup.projectsZipPath = file.getPath();
+			}
+		}
+	}
+	
 	private synchronized void registerLibraryDef(String name, ByteArrayOutputStream output) {
 		librariesDefs.put(name, new LibraryDef(output.toString()));
 	}

@@ -14,7 +14,12 @@ import javax.swing.JTextField;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class AdvancedSettingsPanel extends javax.swing.JPanel {
-    public AdvancedSettingsPanel() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6551672463232739643L;
+
+	public AdvancedSettingsPanel() {
         initComponents();
 
 		coreSuffixField.setText(Ctx.cfgSetup.suffixCommon);
@@ -87,7 +92,7 @@ public class AdvancedSettingsPanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

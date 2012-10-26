@@ -1,6 +1,6 @@
 package aurelienribon.gdxsetupui;
 
-import aurelienribon.utils.Res;
+import aurelienribon.gdxsetupui.ui.Ctx;
 import aurelienribon.utils.TemplateManager;
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,7 +23,7 @@ import org.apache.commons.io.IOUtils;
  * <p/>
  *
  * The raw projects are contained in a zip file. The first thing to do is
- * to inflate this file on the hard drive to get the files adn folders of the
+ * to inflate this file on the hard drive to get the files and folders of the
  * projects. Then, selected libraries should be inflated too in libs folders
  * of the projects, and configurated. Post-process is required to update the
  * files of the projects, and then a call to copy() moves everything to the
@@ -54,6 +54,11 @@ public class ProjectSetup {
 		templateManager.define("MAINCLASS_NAME", cfg.mainClassName);
 		templateManager.define("PACKAGE_NAME", cfg.packageName);
 		templateManager.define("PACKAGE_NAME_AS_PATH", cfg.packageName.replace('.', '/'));
+		templateManager.define("STAGE_WIDTH", cfg.stageWidth);
+		templateManager.define("STAGE_HEIGHT", cfg.stageHeight);
+		templateManager.define("GAME_WIDTH", cfg.gameWidth);
+		templateManager.define("GAME_HEIGHT", cfg.gameHeight);
+		templateManager.define("ZOOM", cfg.zoom);
 
 		// Project specific definitions
 		templateManager.define("PRJ_COMMON_NAME", cfg.projectName + cfg.suffixCommon);
@@ -81,7 +86,7 @@ public class ProjectSetup {
 		FileUtils.forceMkdir(tmpDst);
 		FileUtils.cleanDirectory(tmpDst);
 
-		InputStream is = Res.getStream("projects.zip");
+		InputStream is = new FileInputStream(Ctx.cfgSetup.projectsZipPath);
 		ZipInputStream zis = new ZipInputStream(is);
 		ZipEntry entry;
 
@@ -206,7 +211,11 @@ public class ProjectSetup {
 			File src = new File(tmpDst, "prj-common");
 			File dst = new File(tmpDst, cfg.projectName + cfg.suffixCommon);
 			move(src, "src/MyGame.java", "src/" + cfg.packageName.replace('.', '/') + "/" + cfg.mainClassName + ".java");
-			move(src, "src/MyGame.gwt.xml", "src/" + cfg.mainClassName + ".gwt.xml");
+			move(src, "src/PlayState.java", "src/" + cfg.packageName.replace('.', '/') + "/PlayState.java");
+			if (cfg.isHtmlIncluded)
+				move(src, "src/MyGame.gwt.xml", "src/" + cfg.mainClassName + ".gwt.xml");
+			else
+				delete(src, "src/MyGame.gwt.xml");
 			templateDir(src);
 			FileUtils.moveDirectory(src, dst);
 		}
@@ -304,6 +313,10 @@ public class ProjectSetup {
 		else FileUtils.moveFile(file1, file2);
 	}
 
+	private void delete(File base, String path) {
+		FileUtils.deleteQuietly(new File(base, FilenameUtils.normalize(path)));
+	}
+	
 	private boolean endsWith(String str, String... ends) {
 		for (String end : ends) if (str.endsWith(end)) return true;
 		return false;

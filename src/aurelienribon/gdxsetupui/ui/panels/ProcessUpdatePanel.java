@@ -10,7 +10,9 @@ import javax.swing.SwingUtilities;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class ProcessUpdatePanel extends javax.swing.JPanel {
-    public ProcessUpdatePanel(final MainPanel mainPanel) {
+    
+	private static final long serialVersionUID = -3363261766350330691L;
+	public ProcessUpdatePanel(final MainPanel mainPanel) {
         initComponents();
 
 		Style.registerCssClasses(jScrollPane1, ".frame");
@@ -49,7 +51,7 @@ public class ProcessUpdatePanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

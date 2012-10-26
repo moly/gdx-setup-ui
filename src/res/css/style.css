@@ -81,6 +81,7 @@ aurelienribon-ui-CompactCheckBox:disabled {
 #librarySelectionPanel {-ar-border-title: "Library Selection";}
 #previewPanel {-ar-border-title: "Overview";}
 #goPanel {-ar-border-title: "Generation";}
+#downloadPanel {-ar-border-title: "Downloading";}
 #advancedSettingsPanel {-ar-border-title: "Advanced Settings";}
 #libraryInfoPanel {-ar-border-title: "Library information";}
 #classpathsPanel {-ar-border-title: "Classpaths Review";}

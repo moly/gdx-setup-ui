@@ -20,7 +20,10 @@ import javax.swing.ListCellRenderer;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class ClasspathsPanel extends javax.swing.JPanel {
-    public ClasspathsPanel(final MainPanel mainPanel) {
+    
+	private static final long serialVersionUID = 3328499221134639367L;
+
+	public ClasspathsPanel(final MainPanel mainPanel) {
         initComponents();
 
 		Style.registerCssClasses(jScrollPane2, ".frame");
@@ -99,6 +102,11 @@ public class ClasspathsPanel extends javax.swing.JPanel {
 	// -------------------------------------------------------------------------
 
 	private final ListCellRenderer classpathListCellRenderer = new DefaultListCellRenderer() {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5319130687561638373L;
+
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -120,6 +128,11 @@ public class ClasspathsPanel extends javax.swing.JPanel {
 	};
 
 	private final ListCellRenderer modulesListCellRenderer = new DefaultListCellRenderer() {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -3133337472115890345L;
+
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -144,7 +157,7 @@ public class ClasspathsPanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -206,7 +219,11 @@ public class ClasspathsPanel extends javax.swing.JPanel {
         jPanel1.setOpaque(false);
 
         coreList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 4251482815041106281L;
+			String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -236,7 +253,11 @@ public class ClasspathsPanel extends javax.swing.JPanel {
         jPanel4.setOpaque(false);
 
         htmlList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 7684644756056052326L;
+			String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -271,7 +292,11 @@ public class ClasspathsPanel extends javax.swing.JPanel {
         jPanel3.setOpaque(false);
 
         androidList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 8514549284441286111L;
+			String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -301,7 +326,11 @@ public class ClasspathsPanel extends javax.swing.JPanel {
         jPanel2.setOpaque(false);
 
         desktopList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 6801686857606219399L;
+			String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -331,7 +360,11 @@ public class ClasspathsPanel extends javax.swing.JPanel {
         jPanel8.setOpaque(false);
 
         gwtList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 7311713852941557301L;
+			String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });

@@ -9,16 +9,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import javax.swing.SwingUtilities;
+
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class ProcessSetupPanel extends javax.swing.JPanel {
-    public ProcessSetupPanel(final MainPanel mainPanel) {
-        initComponents();
-
+    
+	private static final long serialVersionUID = -8841251643650343204L;
+	private MainPanel mainPanel;
+	public ProcessSetupPanel(final MainPanel mainPanel) {
+        this.mainPanel = mainPanel;
+		
+		initComponents();
+        
 		Style.registerCssClasses(jScrollPane1, ".frame");
 		Style.registerCssClasses(importQuestion, ".linkLabel");
 		Style.registerCssClasses(fixHtmlQuestion, ".linkLabel");
@@ -30,7 +38,9 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
 
 		startBtn.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				generate();
+				getLibraries();
+				startBtn.setEnabled(false);
+				backBtn.setEnabled(false);
 			}
 		});
 
@@ -53,7 +63,7 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
 		});
     }
 
-	private void generate() {
+	public void generate() {
 		progressArea.setText("");
 
 		final ProjectSetup setup = new ProjectSetup(Ctx.cfgSetup, Ctx.libs);
@@ -74,6 +84,8 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
 					report(" done\nCleaning...");
 					setup.clean();
 					report(" done\nAll done!");
+					startBtn.setEnabled(true);
+					backBtn.setEnabled(true);
 				} catch (final IOException ex) {
 					report("\n[error] " + ex.getMessage());
 					report("\nCleaning...");
@@ -82,6 +94,57 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
 				}
 			}
 		}).start();
+	}
+	
+    private void getLibraries() {
+    	
+    	String path = Ctx.cfgSetup.projectsZipPath;
+    	if (path == null || !new File(path).isFile()) {
+    		mainPanel.showDownloadPanel(new DownloadPanel.Callback() {
+				
+				@Override
+				public void completed() {
+					Ctx.cfgSetup.projectsZipPath = getZipPath(Ctx.libs.getProjectsUrl());
+					getLibraries();
+				}
+			}, Ctx.libs.getProjectsUrl(), FilenameUtils.getName(Ctx.libs.getProjectsUrl()));
+    		return;
+    	}
+    	
+    	for (final String libraryName : Ctx.cfgSetup.libraries) {
+			path = Ctx.cfgSetup.librariesZipPaths.get(libraryName);
+			if (path == null || !new File(path).isFile()) {
+				getLatest(libraryName);
+				return;
+			}
+		}
+    	
+    	generate();
+    }
+
+    private String getZipPath(String url) {
+		String zipName = FilenameUtils.getName(url);
+
+		for (File file : new File(".").listFiles()) {
+			if (file.isFile()) {
+				if (file.getName().equals(zipName)) 
+					return file.getPath();
+			}
+		}
+		return null;
+    }
+    
+    private void getLatest(final String libraryName) {
+		final String input = Ctx.libs.getDef(libraryName).stableUrl;
+		final String output = FilenameUtils.getName(input);
+		mainPanel.showDownloadPanel( new DownloadPanel.Callback() {
+			
+			@Override
+			public void completed() {
+				Ctx.cfgSetup.librariesZipPaths.put(libraryName, getZipPath(input));
+				getLibraries();
+			}
+		}, input, output);
 	}
 
 	private void report(final String txt) {
@@ -96,7 +159,7 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

@@ -25,6 +25,8 @@ import javax.swing.UIManager;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class CompactCheckBox extends JPanel {
+	
+	private static final long serialVersionUID = 4388366005673624414L;
 	private boolean isSelected = false;
 	private final List<ActionListener> listeners = new CopyOnWriteArrayList<ActionListener>();
 	private final JLabel label = new JLabel();

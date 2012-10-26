@@ -10,6 +10,8 @@ import javax.swing.event.EventListenerList;
  * @author Aurelien Ribon | http://www.aurelienribon.com
  */
 public class ObservableList<T> extends ArrayList<T> {
+	
+	private static final long serialVersionUID = -5837064865007051840L;
 	private final Object source;
 	private final List<T> evtList1 = new ArrayList<T>();
 	private final List<T> evtList2 = new ArrayList<T>();
@@ -61,6 +63,7 @@ public class ObservableList<T> extends ArrayList<T> {
 		return ret;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean remove(Object o) {
 		boolean ret = super.remove(o);
@@ -83,6 +86,7 @@ public class ObservableList<T> extends ArrayList<T> {
 		return e;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean removeAll(Collection<?> c) {
 		evtList1.clear();
@@ -159,18 +163,21 @@ public class ObservableList<T> extends ArrayList<T> {
 		listeners.remove(ListChangeListener.class, listener);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void fireElementsAdded(List<T> elems) {
 		if (elems.isEmpty()) return;
 		for (ListChangeListener<T> listener : listeners.getListeners(ListChangeListener.class))
 			listener.changed(source != null ? source : this, elems, new ArrayList<T>());
 	}
 
+	@SuppressWarnings("unchecked")
 	private void fireElementsRemoved(List<T> elems) {
 		if (elems.isEmpty()) return;
 		for (ListChangeListener<T> listener : listeners.getListeners(ListChangeListener.class))
 			listener.changed(source != null ? source : this, new ArrayList<T>(), elems);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void fireChanged(List<T> added, List<T> removed) {
 		if (added.isEmpty() && removed.isEmpty()) return;
 		for (ListChangeListener<T> listener : listeners.getListeners(ListChangeListener.class))

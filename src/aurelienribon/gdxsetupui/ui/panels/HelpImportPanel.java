@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class HelpImportPanel extends javax.swing.JPanel {
-    public HelpImportPanel(final MainPanel mainPanel) {
+   
+	private static final long serialVersionUID = 6760010893528159139L;
+	public HelpImportPanel(final MainPanel mainPanel) {
         initComponents();
 
 		Style.registerCssClasses(num1, ".helpNumber");
@@ -28,7 +30,7 @@ public class HelpImportPanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

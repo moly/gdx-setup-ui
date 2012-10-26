@@ -1,27 +1,25 @@
 package aurelienribon.gdxsetupui.ui.panels;
 
-import aurelienribon.gdxsetupui.BaseProjectConfiguration;
-import aurelienribon.gdxsetupui.Helper;
 import aurelienribon.gdxsetupui.ProjectSetupConfiguration;
-import aurelienribon.gdxsetupui.ProjectUpdateConfiguration;
 import aurelienribon.gdxsetupui.ui.Ctx;
 import aurelienribon.gdxsetupui.ui.MainPanel;
 import aurelienribon.ui.css.Style;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 /**
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class GoPanel extends javax.swing.JPanel {
-    public GoPanel(final MainPanel mainPanel) {
+	
+	private static final long serialVersionUID = -1161307002297650916L;
+	public GoPanel(final MainPanel mainPanel) {
         initComponents();
 		Style.registerCssClasses(headerPanel, ".header");
 		Style.registerCssClasses(numberLabel, ".headerNumber");
 		Style.registerCssClasses(errorLabel, ".statusLabel");
 		Style.registerCssClasses(goBtn, ".bold");
-
+		
 		Ctx.listeners.add(new Ctx.Listener() {
 			@Override public void modeChanged() {update();}
 			@Override public void cfgSetupChanged() {update();}
@@ -29,50 +27,29 @@ public class GoPanel extends javax.swing.JPanel {
 		});
 
 		goBtn.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) {
-				switch (Ctx.mode) {
-					case SETUP: mainPanel.showProcessSetupPanel(); break;
-					case UPDATE: mainPanel.showProcessUpdatePanel(); break;
-				}
+			@Override 
+			public void actionPerformed(ActionEvent e) {
+				mainPanel.showProcessSetupPanel();
 			}
 		});		
     }
-
+    
 	private void update() {
 		errorLabel.firePropertyChange("valid", true, false);
 		errorLabel.firePropertyChange("error", true, false);
 
-		switch (Ctx.mode) {
-			case SETUP:
-				if (isProjectCreationValid(Ctx.cfgSetup)) {
-					goBtn.setEnabled(true);
-					errorLabel.setText("<html>Your configuration is valid.");
-					errorLabel.firePropertyChange("valid", false, true);
-				} else {
-					goBtn.setEnabled(false);
-					errorLabel.setText("<html>" + getCreationErrorMessage(Ctx.cfgSetup));
-					errorLabel.firePropertyChange("error", false, true);
-				}
-
-				numberLabel.setText("3");
-				goBtn.setText("Open the generation screen");
-				break;
-
-			case UPDATE:
-				if (isProjectUpdateValid(Ctx.cfgUpdate)) {
-					goBtn.setEnabled(true);
-					errorLabel.setText("<html>Your configuration is valid.");
-					errorLabel.firePropertyChange("valid", false, true);
-				} else {
-					goBtn.setEnabled(false);
-					errorLabel.setText("<html>" + getUpdateErrorMessage(Ctx.cfgUpdate));
-					errorLabel.firePropertyChange("error", false, true);
-				}
-
-				numberLabel.setText("3");
-				goBtn.setText("Open the update screen");
-				break;
+		if (isProjectCreationValid(Ctx.cfgSetup)) {
+			goBtn.setEnabled(true);
+			errorLabel.setText("<html>Your configuration is valid.");
+			errorLabel.firePropertyChange("valid", false, true);
+		} else {
+			goBtn.setEnabled(false);
+			errorLabel.setText("<html>" + getCreationErrorMessage(Ctx.cfgSetup));
+			errorLabel.firePropertyChange("error", false, true);
 		}
+
+		numberLabel.setText("3");
+		goBtn.setText("Open the generation screen");
 	}
 
 	private boolean isProjectCreationValid(ProjectSetupConfiguration cfg) {
@@ -80,32 +57,15 @@ public class GoPanel extends javax.swing.JPanel {
 		if (cfg.packageName.trim().equals("")) return false;
 		if (cfg.packageName.endsWith(".")) return false;
 		if (cfg.mainClassName.trim().equals("")) return false;
+		if (cfg.stageWidth.trim().equals("")) return false;
+		if (cfg.stageHeight.trim().equals("")) return false;
+		if (cfg.gameWidth.trim().equals("")) return false;
+		if (cfg.gameHeight.trim().equals("")) return false;
+		if (cfg.zoom.trim().equals("")) return false;
 
-		for (String libraryName : cfg.libraries) {
-			if (!isLibraryValid(cfg, libraryName)) return false;
-		}
+		if (cfg.libraries.isEmpty())
+			return false;
 
-		return true;
-	}
-
-	private boolean isProjectUpdateValid(ProjectUpdateConfiguration cfg) {
-		File coreDir = new File(Helper.getCorePrjPath(cfg));
-
-		if (!coreDir.isDirectory()) return false;
-		if (!new File(coreDir, ".classpath").isFile()) return false;
-
-		for (String libraryName : cfg.libraries) {
-			if (!isLibraryValid(cfg, libraryName)) return false;
-		}
-
-		return true;
-	}
-
-	private boolean isLibraryValid(BaseProjectConfiguration cfg, String libraryName) {
-		String path = cfg.librariesZipPaths.get(libraryName);
-		if (path == null) return false;
-		if (!path.endsWith(".zip")) return false;
-		if (!new File(path).isFile()) return false;
 		return true;
 	}
 
@@ -114,25 +74,14 @@ public class GoPanel extends javax.swing.JPanel {
 		if (cfg.packageName.trim().equals("")) return "Package name is not set.";
 		if (cfg.packageName.endsWith(".")) return "Package name ends with a dot.";
 		if (cfg.mainClassName.trim().equals("")) return "Main class name is not set.";
+		if (cfg.stageWidth.trim().equals("")) return "StageWidth is not set.";
+		if (cfg.stageHeight.trim().equals("")) return "StageHeight is not set.";
+		if (cfg.gameWidth.trim().equals("")) return "GameWidth is not set.";
+		if (cfg.gameHeight.trim().equals("")) return "GameHeight is not set.";
+		if (cfg.zoom.trim().equals("")) return "Zoom is not set.";
 
-		for (String libraryName : cfg.libraries) {
-			if (!isLibraryValid(cfg, libraryName))
-				return "At least one selected library has a missing or invalid archive.";
-		}
-
-		return "No error found";
-	}
-
-	private String getUpdateErrorMessage(ProjectUpdateConfiguration cfg) {
-		File coreDir = new File(Helper.getCorePrjPath(cfg));
-
-		if (!coreDir.isDirectory()) return "No core project was selected.";
-		if (!new File(coreDir, ".classpath").isFile()) return "No .classpath file was found in the selected directory.";
-
-		for (String libraryName : cfg.libraries) {
-			if (!isLibraryValid(cfg, libraryName))
-				return "At least one selected library has a missing or invalid archive.";
-		}
+		if (cfg.libraries.isEmpty())
+			return "Loading config file...";
 
 		return "No error found";
 	}
@@ -141,7 +90,7 @@ public class GoPanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -188,7 +137,7 @@ public class GoPanel extends javax.swing.JPanel {
         headerLabel.setText("<html> Ready to go?");
         headerLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        numberLabel.setText("4");
+        numberLabel.setText("3");
 
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);

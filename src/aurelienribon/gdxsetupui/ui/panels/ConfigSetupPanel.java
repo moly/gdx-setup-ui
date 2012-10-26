@@ -25,6 +25,9 @@ import javax.swing.SwingUtilities;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class ConfigSetupPanel extends javax.swing.JPanel {
+	
+	private static final long serialVersionUID = 3365654909309728780L;
+
 	private boolean clicToShowSettings = true;
 
     public ConfigSetupPanel(final MainPanel mainPanel) {
@@ -210,7 +213,7 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

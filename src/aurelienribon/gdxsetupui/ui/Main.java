@@ -3,6 +3,7 @@ package aurelienribon.gdxsetupui.ui;
 import aurelienribon.gdxsetupui.LibraryDef;
 import aurelienribon.ui.components.ArStyle;
 import aurelienribon.ui.css.swing.SwingStyle;
+
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JFrame;

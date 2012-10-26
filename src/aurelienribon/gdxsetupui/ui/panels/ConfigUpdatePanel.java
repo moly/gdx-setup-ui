@@ -24,6 +24,8 @@ import org.apache.commons.io.FileUtils;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class ConfigUpdatePanel extends javax.swing.JPanel {
+	
+	private static final long serialVersionUID = -8485980521505220119L;
 	private boolean clicToShowSettings = true;
 
     public ConfigUpdatePanel(final MainPanel mainPanel) {
@@ -216,7 +218,7 @@ public class ConfigUpdatePanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

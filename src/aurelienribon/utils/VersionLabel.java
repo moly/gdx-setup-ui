@@ -17,9 +17,11 @@ import javax.swing.Timer;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class VersionLabel extends JLabel {
+	
+	private static final long serialVersionUID = -573600922051013218L;
 	private String version;
 	private String checkUrl;
-	private String gotoUrl;
+	//private String gotoUrl;
 	private String blockName;
 
 	/**
@@ -37,7 +39,7 @@ public class VersionLabel extends JLabel {
 		this.version = version;
 		this.blockName = blockName;
 		this.checkUrl = checkUrl;
-		this.gotoUrl = gotoUrl;
+		//this.gotoUrl = gotoUrl;
 		setText("v" + version);
 	}
 
@@ -81,7 +83,7 @@ public class VersionLabel extends JLabel {
 				} else if (idx > 0) {
 					setText("v" + version + " (new version available! v" + versions.get(0) + ")");
 					setIcon(Res.getImage("gfx/ic_warning.png"));
-					SwingUtils.addBrowseBehavior(VersionLabel.this, gotoUrl);
+					//SwingUtils.addBrowseBehavior(VersionLabel.this, gotoUrl);
 					firePropertyChange("newVersion", false, true);
 				} else {
 					setText("v" + version + " (update check error)");

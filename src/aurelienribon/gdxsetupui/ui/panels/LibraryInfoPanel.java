@@ -23,7 +23,9 @@ import javax.swing.SwingUtilities;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class LibraryInfoPanel extends javax.swing.JPanel {
-    public LibraryInfoPanel(final MainPanel mainPanel) {
+    
+	private static final long serialVersionUID = 7238427798135571348L;
+	public LibraryInfoPanel(final MainPanel mainPanel) {
         initComponents();
 
 		closeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -100,7 +102,7 @@ public class LibraryInfoPanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

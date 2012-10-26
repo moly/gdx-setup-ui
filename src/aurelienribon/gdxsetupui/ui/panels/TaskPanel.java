@@ -8,7 +8,6 @@ import aurelienribon.tweenengine.TweenManager;
 import aurelienribon.tweenengine.equations.Quad;
 import aurelienribon.ui.css.DeclarationSet;
 import aurelienribon.ui.css.DeclarationSetProcessor;
-import aurelienribon.ui.css.Property;
 import aurelienribon.ui.css.Selector;
 import aurelienribon.ui.css.Style;
 import aurelienribon.ui.css.swing.SwingProperties;
@@ -31,6 +30,8 @@ import javax.swing.SwingConstants;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class TaskPanel extends JPanel {
+	
+	private static final long serialVersionUID = 6519446842858610063L;
 	private final List<Tile> tiles = new ArrayList<Tile>();
 	private TweenManager tweenManager;
 
@@ -73,7 +74,6 @@ public class TaskPanel extends JPanel {
 	private static class DownloadTileStyleProcessor implements DeclarationSetProcessor<DownloadTile>, SwingProperties {
 		@Override
 		public void process(DownloadTile t, DeclarationSet ds) {
-			Property p;
 
 			t.titleLabel.setForeground(t.getForeground());
 			t.stateLabel.setForeground(t.getForeground());
@@ -136,9 +136,18 @@ public class TaskPanel extends JPanel {
 	// -------------------------------------------------------------------------
 
 	private class Tile extends JPanel {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -8289868441478770704L;
 	}
 
 	private class DownloadTile extends Tile {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -1514398730589763452L;
 		private final JLabel logoLabel = new JLabel();
 		private final JLabel titleLabel = new JLabel();
 		private final JLabel stateLabel = new JLabel();

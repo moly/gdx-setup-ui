@@ -10,7 +10,9 @@ import java.awt.event.ActionListener;
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class AboutPanel extends javax.swing.JPanel {
-    public AboutPanel(final MainPanel mainPanel) {
+    
+	private static final long serialVersionUID = -8728908220783868059L;
+	public AboutPanel(final MainPanel mainPanel) {
         initComponents();
 
 		Style.registerCssClasses(linkLibGDXLabel, ".linkLabel");
@@ -39,7 +41,7 @@ public class AboutPanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

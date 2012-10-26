@@ -2,69 +2,29 @@ package aurelienribon.gdxsetupui.ui.panels;
 
 import aurelienribon.gdxsetupui.LibraryDef;
 import aurelienribon.gdxsetupui.ui.Ctx;
-import aurelienribon.gdxsetupui.ui.MainPanel;
-import aurelienribon.ui.CompactCheckBox;
 import aurelienribon.ui.css.Style;
-import aurelienribon.utils.HttpUtils;
-import aurelienribon.utils.HttpUtils.DownloadListener;
-import aurelienribon.utils.HttpUtils.DownloadTask;
-import aurelienribon.utils.Res;
-import aurelienribon.utils.SwingUtils;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
-import javax.swing.SwingUtilities;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 /**
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class LibrarySelectionPanel extends javax.swing.JPanel {
-	private static final Style style = new Style(Res.getUrl("css/style.css"));
-	private static final Color LIB_FOUND_COLOR = new Color(0x008800);
-	private static final Color LIB_NOTFOUND_COLOR = new Color(0x880000);
 
-	private final MainPanel mainPanel;
+	private static final long serialVersionUID = -6918124242646251594L;
 	private final Map<String, File> libsSelectedFiles = new HashMap<String, File>();
-	private final Map<String, JComponent> libsNamesCmps = new HashMap<String, JComponent>();
 
-    public LibrarySelectionPanel(MainPanel mainPanel) {
-		this.mainPanel = mainPanel;
+    public LibrarySelectionPanel() {
         initComponents();
 
 		librariesScrollPane.getViewport().setOpaque(false);
-
-		libgdxInfoBtn.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {showInfo("libgdx");}});
-		libgdxBrowseBtn.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {browse("libgdx");}});
-		libgdxGetStableBtn.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {getStable("libgdx");}});
-		libgdxGetNightliesBtn.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {getLatest("libgdx");}});
-
+		
 		Style.registerCssClasses(headerPanel, ".header");
 		Style.registerCssClasses(numberLabel, ".headerNumber");
 		Style.registerCssClasses(sectionLabel1, ".sectionLabel");
@@ -73,14 +33,14 @@ public class LibrarySelectionPanel extends javax.swing.JPanel {
     }
 
 	public void initializeLibgdx() {
-		libsNamesCmps.put("libgdx", libgdxLabel);
-		libgdxLabel.setForeground(LIB_NOTFOUND_COLOR);
-		preselectLibraryArchive("libgdx");
+		//libsNamesCmps.put("libgdx", libgdxLabel);
+		//libgdxLabel.setForeground(LIB_NOTFOUND_COLOR);
+		//preselectLibraryArchive("libgdx");
 	}
 
 	public synchronized void rebuildLibraries() {
 		List<String> names = new ArrayList<String>(Ctx.libs.getNames());
-
+		
 		for (int i=names.size()-1; i>=0; i--) {
 			if (Ctx.libs.getDef(names.get(i)) == null)
 				names.remove(i);
@@ -96,82 +56,20 @@ public class LibrarySelectionPanel extends javax.swing.JPanel {
 
 		librariesPanel.removeAll();
 		librariesScrollPane.revalidate();
-
+		
 		for (String name : names) {
-			if (!name.equals("libgdx")) buildLibraryPanel(name);
+			if (!Ctx.cfgSetup.libraries.contains(name))
+				Ctx.cfgSetup.libraries.add(name);
 			preselectLibraryArchive(name);
 		}
+		
+		Ctx.fireCfgSetupChanged();
+		Ctx.fireCfgUpdateChanged();
 	}
 
 	// -------------------------------------------------------------------------
 	// Initialization of libraries
 	// -------------------------------------------------------------------------
-
-	private void buildLibraryPanel(final String libraryName) {
-		ActionListener nameChkAL = new ActionListener() {@Override public void actionPerformed(ActionEvent e) {
-			if (((CompactCheckBox) e.getSource()).isSelected()) {
-				if (!Ctx.cfgSetup.libraries.contains(libraryName)) Ctx.cfgSetup.libraries.add(libraryName);
-				if (!Ctx.cfgUpdate.libraries.contains(libraryName)) Ctx.cfgUpdate.libraries.add(libraryName);
-			} else {
-				Ctx.cfgSetup.libraries.remove(libraryName);
-				Ctx.cfgUpdate.libraries.remove(libraryName);
-			}
-
-			Ctx.fireCfgSetupChanged();
-			Ctx.fireCfgUpdateChanged();
-		}};
-
-		Action infoAction = new AbstractAction() {@Override public void actionPerformed(ActionEvent e) {showInfo(libraryName);}};
-		Action browseAction = new AbstractAction() {@Override public void actionPerformed(ActionEvent e) {browse(libraryName);}};
-		Action getStableAction = new AbstractAction() {@Override public void actionPerformed(ActionEvent e) {getStable(libraryName);}};
-		Action getLatestAction = new AbstractAction() {@Override public void actionPerformed(ActionEvent e) {getLatest(libraryName);}};
-
-		LibraryDef def = Ctx.libs.getDef(libraryName);
-
-		CompactCheckBox nameChk = new CompactCheckBox(def.name + " ");
-		JLabel html5Label = new JLabel(Res.getImage("gfx/ic_html5.png"));
-		JButton infoBtn = new JButton(infoAction);
-		JButton browseBtn = new JButton(browseAction);
-		JButton getStableBtn = new JButton(getStableAction);
-		JButton getLatestBtn = new JButton(getLatestAction);
-
-		nameChk.addActionListener(nameChkAL);
-		nameChk.setForeground(LIB_NOTFOUND_COLOR);
-		html5Label.setToolTipText("Compatible with HTML backend");
-		infoBtn.setIcon(Res.getImage("gfx/ic_info.png"));
-		browseBtn.setIcon(Res.getImage("gfx/ic_browse.png"));
-		getStableBtn.setIcon(Res.getImage("gfx/ic_download_stable.png"));
-		getLatestBtn.setIcon(Res.getImage("gfx/ic_download_nightlies.png"));
-		infoBtn.setFocusable(false);
-		browseBtn.setFocusable(false);
-		getStableBtn.setFocusable(false);
-		getLatestBtn.setFocusable(false);
-
-		JToolBar toolBar = new JToolBar();
-		toolBar.setOpaque(false);
-		toolBar.setFloatable(false);
-		toolBar.add(Box.createHorizontalGlue());
-		toolBar.add(infoBtn);
-		toolBar.add(browseBtn);
-		if (def.stableUrl != null) toolBar.add(getStableBtn); else toolBar.add(Box.createHorizontalStrut(libgdxGetStableBtn.getPreferredSize().width));
-		if (def.latestUrl != null) toolBar.add(getLatestBtn); else toolBar.add(Box.createHorizontalStrut(libgdxGetNightliesBtn.getPreferredSize().width));
-
-		JPanel leftPanel = new JPanel(new BorderLayout());
-		leftPanel.setOpaque(false);
-		leftPanel.add(nameChk, BorderLayout.CENTER);
-		if (def.gwtModuleName != null) leftPanel.add(html5Label, BorderLayout.EAST);
-
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
-		panel.setOpaque(false);
-		panel.add(leftPanel, BorderLayout.WEST);
-		panel.add(toolBar, BorderLayout.CENTER);
-
-		librariesPanel.add(panel);
-
-		Style.apply(librariesPanel, style);
-		libsNamesCmps.put(libraryName, nameChk);
-	}
 
 	private void preselectLibraryArchive(String libraryName) {
 		LibraryDef def = Ctx.libs.getDef(libraryName);
@@ -189,68 +87,14 @@ public class LibrarySelectionPanel extends javax.swing.JPanel {
 	// -------------------------------------------------------------------------
 	// Actions
 	// -------------------------------------------------------------------------
-
-	private void showInfo(String libraryName) {
-		mainPanel.showLibraryInfo(libraryName);
-	}
-
-	private void browse(String libraryName) {
-		File file = libsSelectedFiles.get(libraryName);
-		String path = file != null ? file.getPath() : ".";
-		JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-
-		JFileChooser chooser = new JFileChooser(new File(path));
-		chooser.setFileFilter(new FileNameExtensionFilter("Zip files (*.zip)", "zip"));
-		chooser.setDialogTitle("Please select the zip archive for \"" + libraryName + "\"");
-
-		if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
-			select(libraryName, chooser.getSelectedFile());
-		}
-	}
-
-	private void getStable(final String libraryName) {
-		final String input = Ctx.libs.getDef(libraryName).stableUrl;
-		final String output = FilenameUtils.getName(input);
-		getFile(input, output, libraryName, "Stable '" + libraryName + "'");
-	}
-
-	private void getLatest(String libraryName) {
-		final String input = Ctx.libs.getDef(libraryName).latestUrl;
-		final String output = FilenameUtils.getName(input);
-		getFile(input, output, libraryName, "Latest '" + libraryName + "'");
-	}
-
-	private void getFile(final String input, final String output, final String libraryName, String tag) {
-		OutputStream tempOutput;
-		try {
-			tempOutput = new BufferedOutputStream(new FileOutputStream(output + ".tmp"));
-		} catch (IOException ex) {
-			throw new RuntimeException(ex);
-		}
-
-		DownloadTask task = HttpUtils.downloadAsync(input, tempOutput, tag);
-
-		task.addListener(new DownloadListener() {
-			@Override public void onComplete() {
-				try {
-					FileUtils.deleteQuietly(new File(output));
-					FileUtils.moveFile(new File(output + ".tmp"), new File(output));
-				} catch (IOException ex) {
-					String msg = "Could not rename \"" + output + ".tmp" + "\" into \"" + output + "\"";
-					JOptionPane.showMessageDialog(SwingUtils.getJFrame(LibrarySelectionPanel.this), msg);
-				}
-				select(libraryName, new File(output));
-			}
-		});
-	}
-
+	
 	private void select(String libraryName, File zipFile) {
 		libsSelectedFiles.put(libraryName, zipFile);
 		Ctx.cfgSetup.librariesZipPaths.put(libraryName, zipFile.getPath());
 		Ctx.cfgUpdate.librariesZipPaths.put(libraryName, zipFile.getPath());
 
-		libsNamesCmps.get(libraryName).setToolTipText("Using archive: \"" + zipFile.getPath() + "\"");
-		libsNamesCmps.get(libraryName).setForeground(LIB_FOUND_COLOR);
+		//libsNamesCmps.get(libraryName).setToolTipText("Using archive: \"" + zipFile.getPath() + "\"");
+		//libsNamesCmps.get(libraryName).setForeground(LIB_FOUND_COLOR);
 
 		Ctx.fireCfgSetupChanged();
 	}
@@ -259,7 +103,7 @@ public class LibrarySelectionPanel extends javax.swing.JPanel {
 	// Generated stuff
 	// -------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

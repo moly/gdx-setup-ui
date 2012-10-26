@@ -1,11 +1,11 @@
 package aurelienribon.gdxsetupui.ui;
 
-import aurelienribon.gdxsetupui.LibraryDef;
 import aurelienribon.gdxsetupui.ui.panels.AboutPanel;
 import aurelienribon.gdxsetupui.ui.panels.AdvancedSettingsPanel;
 import aurelienribon.gdxsetupui.ui.panels.ClasspathsPanel;
 import aurelienribon.gdxsetupui.ui.panels.ConfigSetupPanel;
 import aurelienribon.gdxsetupui.ui.panels.ConfigUpdatePanel;
+import aurelienribon.gdxsetupui.ui.panels.DownloadPanel;
 import aurelienribon.gdxsetupui.ui.panels.GoPanel;
 import aurelienribon.gdxsetupui.ui.panels.HelpFixHtmlPanel;
 import aurelienribon.gdxsetupui.ui.panels.HelpImportPanel;
@@ -38,23 +38,24 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import javax.swing.JLabel;
-import org.apache.commons.io.IOUtils;
 
 /**
  * @author Aurelien Ribon | http://www.aurelienribon.com/
  */
 public class MainPanel extends PaintedPanel {
+	
+	private static final long serialVersionUID = 6268226953569312141L;
 	// Panels
 	private final ConfigSetupPanel configSetupPanel = new ConfigSetupPanel(this);
 	private final ConfigUpdatePanel configUpdatePanel = new ConfigUpdatePanel(this);
-	private final LibrarySelectionPanel librarySelectionPanel = new LibrarySelectionPanel(this);
+	private final LibrarySelectionPanel librarySelectionPanel = new LibrarySelectionPanel();
 	private final PreviewPanel previewPanel = new PreviewPanel();
 	private final GoPanel goPanel = new GoPanel(this);
 	private final TaskPanel taskPanel = new TaskPanel();
 	private final AdvancedSettingsPanel advancedSettingsPanel = new AdvancedSettingsPanel();
 	private final LibraryInfoPanel libraryInfoPanel = new LibraryInfoPanel(this);
+	private final DownloadPanel downloadPanel = new DownloadPanel(this);
 	private final ClasspathsPanel classpathsPanel = new ClasspathsPanel(this);
 	private final ProcessSetupPanel processSetupPanel = new ProcessSetupPanel(this);
 	private final ProcessUpdatePanel processUpdatePanel = new ProcessUpdatePanel(this);
@@ -66,12 +67,27 @@ public class MainPanel extends PaintedPanel {
 	private final JLabel startLogoLabel = new JLabel(Res.getImage("gfx/logo.png"));
 	private final JLabel startQuestionLabel = new JLabel("<html>Do you want to create"
 		+ " a new project, or to update the libraries of an existing one?");
-	private final Button startSetupBtn = new Button() {{setText("Create");}};
-	private final Button startUpdateBtn = new Button() {{setText("Update");}};
+	private final Button startSetupBtn = new Button() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 3690251300956255660L;
+
+	{setText("Create");}};
+	private final Button startUpdateBtn = new Button() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 347931375705892050L;
+
+	{setText("Update");}};
 
 	// Misc components
 	private final VersionLabel versionLabel = new VersionLabel();
-	private final Button changeModeBtn = new Button() {{setText("Change mode");}};
+	private final Button changeModeBtn = new Button() {/**
+		 * 
+		 */
+		private static final long serialVersionUID = 5313468772236621281L;
+
+	{setText("Change mode");}};
 
 	// SlidingLayout
 	private final SLPanel rootPanel = new SLPanel();
@@ -86,12 +102,12 @@ public class MainPanel extends PaintedPanel {
 		HttpUtils.setReferer("http://aurelienribon-dev.com/gdx-setup-ui");
 
 		versionLabel.initAndCheck("3.0.0", "versions",
-			"https://raw.github.com/libgdx/libgdx/master/extensions/gdx-setup-ui/config/config.txt",
+			"https://raw.github.com/moly/gdx-setup-ui/master/config/config.txt",
 			"https://github.com/AurelienRibon/gdx-setup-ui/downloads");
 		//versionLabel.setVisible(false);
 		
 		initUI();
-		initLibgdx();
+		//initLibgdx();
 		initStyle();
 		initConfigurations();
 		rootPanel.initialize(setupCfg);
@@ -103,7 +119,7 @@ public class MainPanel extends PaintedPanel {
 		if (Ctx.testLibUrl != null) Ctx.libs.addUrl("__test_url__", Ctx.testLibUrl);
 		if (Ctx.testLibDef != null) Ctx.libs.addDef("__test_def__", Ctx.testLibDef);
 		if (Ctx.testLibDef != null) librarySelectionPanel.rebuildLibraries();
-
+		
 		SwingUtils.addWindowListener(this, new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
@@ -118,19 +134,6 @@ public class MainPanel extends PaintedPanel {
 		});
 		
 		Ctx.fireModeChangedChanged();
-	}
-
-	private void initLibgdx() {
-		try {
-			String rawDef = IOUtils.toString(Res.getStream("libgdx.txt"));
-			LibraryDef def = new LibraryDef(rawDef);
-			Ctx.libs.addDef("libgdx", def);
-			Ctx.cfgSetup.libraries.add("libgdx");
-			Ctx.cfgUpdate.libraries.add("libgdx");
-			librarySelectionPanel.initializeLibgdx();
-		} catch (IOException ex) {
-			assert false;
-		}
 	}
 
 	private void initUI() {
@@ -184,6 +187,7 @@ public class MainPanel extends PaintedPanel {
 		Style.registerCssClasses(previewPanel, ".groupPanel", "#previewPanel");
 		Style.registerCssClasses(goPanel, ".groupPanel", "#goPanel");
 		Style.registerCssClasses(advancedSettingsPanel, ".groupPanel", "#advancedSettingsPanel");
+		Style.registerCssClasses(downloadPanel, ".groupPanel", "#downloadPanel");
 		Style.registerCssClasses(libraryInfoPanel, ".groupPanel", "#libraryInfoPanel");
 		Style.registerCssClasses(classpathsPanel, ".groupPanel", "#classpathsPanel");
 		Style.registerCssClasses(processSetupPanel, ".groupPanel", "#processSetupPanel");
@@ -199,7 +203,7 @@ public class MainPanel extends PaintedPanel {
 
 		Component[] targets = new Component[] {
 			this, configSetupPanel, configUpdatePanel, librarySelectionPanel,
-			previewPanel, goPanel, taskPanel, advancedSettingsPanel,
+			previewPanel, goPanel, downloadPanel, taskPanel, advancedSettingsPanel,
 			libraryInfoPanel, classpathsPanel, processSetupPanel, processUpdatePanel,
 			aboutPanel, helpImportPanel, helpFixHtmlPanel,
 			changeModeBtn, versionLabel, startQuestionLabel, startSetupBtn, startUpdateBtn
@@ -225,11 +229,11 @@ public class MainPanel extends PaintedPanel {
 	private SLConfig libraryInfoCfg;
 	private SLConfig setupAdvSettingsCfg;
 	private SLConfig setupProcessCfg;
-	private SLConfig updateAdvSettingsCfg;
 	private SLConfig updateProcessCfg;
 	private SLConfig aboutCfg;
 	private SLConfig helpImportCfg;
 	private SLConfig helpFixHtmlCfg;
+	private SLConfig downloadCfg;
 
 	private String currentLibraryInfo;
 
@@ -268,11 +272,6 @@ public class MainPanel extends PaintedPanel {
 					.place(0, 0, configSetupPanel)
 					.place(1, 0, versionLabel)
 				.endGrid()
-				//.beginGrid(0, 1)
-					//.row(1f)
-					//.col(1f)
-					//.place(0, 0, librarySelectionPanel)
-				//.endGrid()
 				.beginGrid(0, 1)
 					.row(1f)
 					.row(goPanel.getPreferredSize().height)
@@ -281,11 +280,6 @@ public class MainPanel extends PaintedPanel {
 					.place(1, 0, goPanel)
 				.endGrid()
 			.endGrid();
-			//.beginGrid(1, 0)
-				//.row(1f).col(100).col(1f)
-				//.place(0, 0, changeModeBtn)
-				//.place(0, 1, taskPanel)
-			//.endGrid();
 
 		updateCfg = new SLConfig(rootPanel)
 			.gap(gap, gap)
@@ -325,7 +319,19 @@ public class MainPanel extends PaintedPanel {
 				.place(0, 1, libraryInfoPanel)
 			.endGrid()
 			.place(1, 0, taskPanel);
-
+		
+		downloadCfg = new SLConfig(rootPanel)
+			.gap(gap, gap)
+			.row(1f)
+			.row(downloadPanel.getPreferredSize().height)
+			.col(1f)
+			.beginGrid(0, 0)
+				.row(1f).col(1f).col(1f)
+				.place(0, 0, processSetupPanel)	
+				.place(0, 1, previewPanel)
+			.endGrid()
+			.place(1, 0, downloadPanel);
+			
 		setupAdvSettingsCfg = new SLConfig(rootPanel)
 			.gap(gap, gap)
 			.row(1f).col(1f).col(1f)
@@ -340,22 +346,12 @@ public class MainPanel extends PaintedPanel {
 
 		setupProcessCfg = new SLConfig(rootPanel)
 			.gap(gap, gap)
-			.row(1f).col(2f).col(1f)
+			.row(1f).col(1f).col(1f)
 			.beginGrid(0, 1)
 				.row(1f).col(1f)
 				.place(0, 0, previewPanel)
 			.endGrid()
 			.place(0, 0, processSetupPanel);
-
-		updateAdvSettingsCfg = new SLConfig(rootPanel)
-			.gap(gap, gap)
-			.row(1f).col(1f).col(2f)
-			.beginGrid(0, 0)
-				.row(configUpdatePanel.getPreferredSize().height)
-				.col(1f)
-				.place(0, 0, configUpdatePanel)
-			.endGrid()
-			.place(0, 1, advancedSettingsPanel);
 
 		updateProcessCfg = new SLConfig(rootPanel)
 			.gap(gap, gap)
@@ -416,45 +412,51 @@ public class MainPanel extends PaintedPanel {
 	}
 
 	public boolean showAdvancedSettings() {
-		switch (Ctx.mode) {
-			case SETUP:
-				return rootPanel.createTransition()
-					.push(new SLKeyframe(setupAdvSettingsCfg, transitionDuration)
-						.setEndSideForOldCmps(BOTTOM)
-						.setStartSideForNewCmps(TOP))
-					.play();
-
-			case UPDATE:
-				return rootPanel.createTransition()
-					.push(new SLKeyframe(updateAdvSettingsCfg, transitionDuration)
-						.setEndSideForOldCmps(BOTTOM)
-						.setStartSideForNewCmps(TOP))
-					.play();
-		}
-
-		return false;
+		
+		return rootPanel.createTransition()
+			.push(new SLKeyframe(setupAdvSettingsCfg, transitionDuration)
+				.setEndSideForOldCmps(BOTTOM)
+				.setStartSideForNewCmps(TOP))
+			.play();
 	}
-
+	
 	public boolean hideAdvancedSettings() {
-		switch (Ctx.mode) {
-			case SETUP:
-				return rootPanel.createTransition()
-					.push(new SLKeyframe(setupCfg, transitionDuration)
-						.setEndSideForOldCmps(TOP)
-						.setStartSideForNewCmps(BOTTOM))
-					.play();
-
-			case UPDATE:
-				return rootPanel.createTransition()
-					.push(new SLKeyframe(updateCfg, transitionDuration)
-						.setEndSideForOldCmps(TOP)
-						.setStartSideForNewCmps(BOTTOM))
-					.play();
-		}
-
-		return false;
+		
+		return rootPanel.createTransition()
+			.push(new SLKeyframe(setupCfg, transitionDuration)
+				.setEndSideForOldCmps(TOP)
+				.setStartSideForNewCmps(BOTTOM))
+			.play();
 	}
 
+	public void showDownloadPanel(DownloadPanel.Callback callback, String url, String out) {
+		if (currentLibraryInfo != null) {
+			if (currentLibraryInfo.equals(url)) {
+				hideDownloadPanel();
+			} else {
+				currentLibraryInfo = url;
+				//libraryInfoPanel.setup(libraryName);
+				downloadPanel.setup(callback, url, out);
+			}
+			return;
+		}
+
+		currentLibraryInfo = url;
+		downloadPanel.setup(callback, url, out);
+
+		rootPanel.createTransition()
+			.push(new SLKeyframe(downloadCfg, transitionDuration)
+				//.setEndSide(LEFT, configSetupPanel, versionLabel, changeModeBtn)
+				//.setEndSide(RIGHT, goPanel)
+				.setStartSide(BOTTOM, downloadPanel)
+				.setDelay(transitionDuration, downloadPanel))
+			.play();
+	}
+	
+	public void hideDownloadPanel() {
+		
+	}
+	
 	public void showLibraryInfo(String libraryName) {
 		if (currentLibraryInfo != null) {
 			if (currentLibraryInfo.equals(libraryName)) {
@@ -469,60 +471,32 @@ public class MainPanel extends PaintedPanel {
 		currentLibraryInfo = libraryName;
 		libraryInfoPanel.setup(libraryName);
 
-		switch (Ctx.mode) {
-			case SETUP:
-				rootPanel.createTransition()
-					.push(new SLKeyframe(libraryInfoCfg, transitionDuration)
-						.setEndSide(LEFT, configSetupPanel, versionLabel, changeModeBtn)
-						.setEndSide(RIGHT, previewPanel, goPanel)
-						.setStartSide(TOP, libraryInfoPanel)
-						.setDelay(transitionDuration, libraryInfoPanel))
-					.play();
-				break;
-
-			case UPDATE:
-				rootPanel.createTransition()
-					.push(new SLKeyframe(libraryInfoCfg, transitionDuration)
-						.setEndSide(LEFT, configUpdatePanel, versionLabel, changeModeBtn)
-						.setEndSide(RIGHT, goPanel)
-						.setStartSide(TOP, libraryInfoPanel)
-						.setDelay(transitionDuration, libraryInfoPanel))
-					.play();
-				break;
-		}
+		rootPanel.createTransition()
+			.push(new SLKeyframe(libraryInfoCfg, transitionDuration)
+				.setEndSide(LEFT, configSetupPanel, versionLabel, changeModeBtn)
+				.setEndSide(RIGHT, previewPanel, goPanel)
+				.setStartSide(TOP, libraryInfoPanel)
+				.setDelay(transitionDuration, libraryInfoPanel))
+			.play();
 	}
 
 	public void hideLibraryInfo() {
 		currentLibraryInfo = null;
 
-		switch (Ctx.mode) {
-			case SETUP:
-				rootPanel.createTransition()
-					.push(new SLKeyframe(setupCfg, transitionDuration)
-						.setEndSide(RIGHT, libraryInfoPanel)
-						.setStartSide(RIGHT, previewPanel, goPanel)
-						.setStartSide(LEFT, configSetupPanel, versionLabel, changeModeBtn)
-						.setDelay(transitionDuration, previewPanel, goPanel))
-					.play();
-				break;
-
-			case UPDATE:
-				rootPanel.createTransition()
-					.push(new SLKeyframe(updateCfg, transitionDuration)
-						.setEndSide(RIGHT, libraryInfoPanel)
-						.setStartSide(RIGHT, goPanel)
-						.setStartSide(LEFT, configUpdatePanel, versionLabel, changeModeBtn)
-						.setDelay(transitionDuration, goPanel))
-					.play();
-				break;
-		}
+		rootPanel.createTransition()
+			.push(new SLKeyframe(setupCfg, transitionDuration)
+				.setEndSide(RIGHT, libraryInfoPanel)
+				.setStartSide(RIGHT, previewPanel, goPanel)
+				.setStartSide(LEFT, configSetupPanel, versionLabel, changeModeBtn)
+				.setDelay(transitionDuration, previewPanel, goPanel))
+			.play();
 	}
 
 	public void showProcessSetupPanel() {
 		rootPanel.createTransition()
 			.push(new SLKeyframe(setupProcessCfg, transitionDuration)
 				.setEndSide(TOP, configSetupPanel, versionLabel)//, librarySelectionPanel)
-				.setEndSide(BOTTOM, taskPanel, changeModeBtn, goPanel)
+				//.setEndSide(BOTTOM, /*taskPanel, changeModeBtn,*/ goPanel)
 				.setStartSide(BOTTOM, processSetupPanel))
 			.play();
 	}
@@ -532,7 +506,7 @@ public class MainPanel extends PaintedPanel {
 			.push(new SLKeyframe(setupCfg, transitionDuration)
 				.setEndSide(BOTTOM, processSetupPanel)
 				.setStartSide(TOP, configSetupPanel, versionLabel)//, librarySelectionPanel)
-				.setStartSide(BOTTOM, taskPanel, changeModeBtn, goPanel))
+				.setStartSide(BOTTOM, /*taskPanel, changeModeBtn,*/ goPanel))
 			.play();
 	}
 
@@ -565,21 +539,12 @@ public class MainPanel extends PaintedPanel {
 	}
 
 	public void hideAboutPanel() {
-		switch (Ctx.mode) {
-			case SETUP:
-				rootPanel.createTransition()
-					.push(new SLKeyframe(setupCfg, transitionDuration)
-						.setEndSideForOldCmps(RIGHT)
-						.setStartSideForNewCmps(LEFT))
-					.play();
-
-			case UPDATE:
-				rootPanel.createTransition()
-					.push(new SLKeyframe(updateCfg, transitionDuration)
-						.setEndSideForOldCmps(RIGHT)
-						.setStartSideForNewCmps(LEFT))
-					.play();
-		}
+		
+		rootPanel.createTransition()
+			.push(new SLKeyframe(setupCfg, transitionDuration)
+				.setEndSideForOldCmps(RIGHT)
+				.setStartSideForNewCmps(LEFT))
+			.play();
 	}
 
 	public void showHelpImportPanel() {

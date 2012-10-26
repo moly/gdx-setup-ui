@@ -1,0 +1,13 @@
+[versions]
+2.0.2
+2.0.1
+2.0.0
+1.0.1
+1.0.0
+
+[projects]
+https://raw.github.com/moly/gdx-setup-ui/config/projects-20121026.zip
+
+[libraries]
+libgdx           = https://raw.github.com/moly/gdx-setup-ui/master/config/libgdx.txt
+flixel-android   = https://raw.github.com/moly/gdx-setup-ui/master/config/flixel-android.txt

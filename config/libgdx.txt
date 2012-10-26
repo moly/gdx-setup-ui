@@ -1,0 +1,58 @@
+[name]
+LibGDX
+
+[description]
+LibGDX is a cross-platform 2D and 3D game development framework written in
+Java/C/C++.<br/><br/>
+
+It's free for commercial and non-commercial use, pretty powerful
+and lots of fun to work with! Or at least no-one complained yet.<br/><br/>
+Write your game once, deploy to Windows, Linux, Mac OSX and Android!
+
+[author]
+Mario Zechner
+
+[author-website]
+http://libgdx.badlogicgames.com/
+
+[homepage]
+http://libgdx.badlogicgames.com/
+
+[logo]
+http://libgdx.googlecode.com/svn/trunk/extensions/gdx-setup-ui/config/libgdx-logo.png
+
+[stable-version]
+0.9.6
+
+[stable-url]
+http://flixel-android.googlecode.com/files/libgdx-20121026.zip
+
+[gwt]
+com.badlogic.gdx.backends.gdx_backends_gwt
+
+[libs-common]
+gdx.jar
+gdx-sources.jar
+gdx-freetype.jar
+gdx-freetype-sources.jar
+
+[libs-desktop]
+gdx-backend-lwjgl.jar
+gdx-backend-lwjgl-natives.jar
+gdx-backend-lwjgl-sources.jar
+gdx-natives.jar
+gdx-freetype-natives.jar
+
+[libs-android]
+armeabi/libandroidgl20.so
+armeabi/libgdx.so
+armeabi-v7a/libandroidgl20.so
+armeabi-v7a/libgdx.so
+gdx-backend-android.jar
+gdx-backend-android-sources.jar
+armeabi/libgdx-freetype.so
+armeabi-v7a/libgdx-freetype.so
+
+[libs-html]
+gdx-backend-gwt.jar
+gdx-backend-gwt-sources.jar

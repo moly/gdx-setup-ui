@@ -7,8 +7,8 @@
 1.0.0
 
 [projects]
-https://raw.github.com/moly/gdx-setup-ui/master/config/projects-20121026.zip
+https://s3.amazonaws.com/flixel-gdx-setup-ui/projects-20130223.zip
 
 [libraries]
-libgdx           = https://raw.github.com/moly/gdx-setup-ui/master/config/libgdx.txt
-flixel-android   = https://raw.github.com/moly/gdx-setup-ui/master/config/flixel-android.txt
+libgdx           = https://s3.amazonaws.com/flixel-gdx-setup-ui/libgdx.txt
+flixel-android   = https://s3.amazonaws.com/flixel-gdx-setup-ui/flixel-gdx.txt

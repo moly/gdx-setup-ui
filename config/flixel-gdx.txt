@@ -1,5 +1,5 @@
 [name]
-flixel-android
+flixel-gdx
 
 [description]
 LibGDX is a cross-platform 2D and 3D game development framework written in
@@ -9,7 +9,7 @@ and lots of fun to work with! Or at least no-one complained yet.<br/><br/>
 Write your game once, deploy to Windows, Linux, Mac OSX and Android!
 
 [homepage]
-http://code.google.com/p/flixel-android
+http://github.com/flixel-gdx/flixel-gdx
 
 [gwt]
 org.flixel
@@ -18,7 +18,7 @@ org.flixel
 0.5
 
 [stable-url]
-http://flixel-android.googlecode.com/files/flixel-android-jars-20121026.zip
+https://s3.amazonaws.com/flixel-gdx-setup-ui/flixel-gdx-20130223.zip
 
 [libs-common]
 flixel.jar
@@ -31,6 +31,7 @@ flixel-desktop-sources.jar
 [libs-android]
 flixel-android.jar
 flixel-android-sources.jar
+flixel-android.jar.properties
 
 [libs-html]
 flixel-gwt.jar

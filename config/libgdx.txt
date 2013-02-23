@@ -25,7 +25,7 @@ http://libgdx.googlecode.com/svn/trunk/extensions/gdx-setup-ui/config/libgdx-log
 0.9.6
 
 [stable-url]
-http://flixel-android.googlecode.com/files/libgdx-20121026.zip
+https://s3.amazonaws.com/flixel-gdx-setup-ui/libgdx-20130223.zip
 
 [gwt]
 com.badlogic.gdx.backends.gdx_backends_gwt
@@ -35,6 +35,8 @@ gdx.jar
 gdx-sources.jar
 gdx-freetype.jar
 gdx-freetype-sources.jar
+tween-engine-api.jar
+tween-engine-api-sources.jar
 
 [libs-desktop]
 gdx-backend-lwjgl.jar

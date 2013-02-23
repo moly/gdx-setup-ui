@@ -32,7 +32,7 @@ public class Main {
 				SwingStyle.init();
 				ArStyle.init();
 
-				JFrame frame = new JFrame("Flixel-Android Project Setup");
+				JFrame frame = new JFrame("flixel-gdx Project Setup");
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setContentPane(new MainPanel());
 				frame.setSize(800, 600);

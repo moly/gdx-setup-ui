@@ -102,7 +102,7 @@ public class MainPanel extends PaintedPanel {
 		HttpUtils.setReferer("http://aurelienribon-dev.com/gdx-setup-ui");
 
 		versionLabel.initAndCheck("3.0.0", "versions",
-			"https://raw.github.com/moly/gdx-setup-ui/master/config/config.txt",
+			"https://s3.amazonaws.com/flixel-gdx-setup-ui/config.txt",
 			"https://github.com/AurelienRibon/gdx-setup-ui/downloads");
 		//versionLabel.setVisible(false);
 		

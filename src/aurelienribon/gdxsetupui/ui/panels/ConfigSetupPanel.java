@@ -70,7 +70,7 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
 		browseBtn.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {browse();}});
 		genDesktopPrjChk.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {update();}});
 		genAndroidPrjChk.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {update();}});
-		//genHtmlPrjChk.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {update();}});
+		genHtmlPrjChk.addActionListener(new ActionListener() {@Override public void actionPerformed(ActionEvent e) {update();}});
 
 		advancedSettingsLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		advancedSettingsLabel.addMouseListener(new MouseAdapter() {
@@ -123,7 +123,7 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
 		Ctx.cfgSetup.gameWidth = gameWidthField.getText();
 		Ctx.cfgSetup.gameHeight = gameHeightField.getText();
 		Ctx.cfgSetup.zoom = zoomField.getText();
-		//Ctx.cfgSetup.isHtmlIncluded = genHtmlPrjChk.isSelected();
+		Ctx.cfgSetup.isHtmlIncluded = genHtmlPrjChk.isSelected();
 		Ctx.fireCfgSetupChanged();
 	}
 
@@ -318,7 +318,7 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
         
         genHtmlPrjChk.setSelected(Ctx.cfgSetup.isHtmlIncluded);
         genHtmlPrjChk.setText("Generate html project");
-        genHtmlPrjChk.setVisible(false);
+        //genHtmlPrjChk.setVisible(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

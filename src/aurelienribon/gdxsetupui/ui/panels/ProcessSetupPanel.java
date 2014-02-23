@@ -4,6 +4,7 @@ import aurelienribon.gdxsetupui.ProjectSetup;
 import aurelienribon.gdxsetupui.ui.Ctx;
 import aurelienribon.gdxsetupui.ui.MainPanel;
 import aurelienribon.ui.css.Style;
+
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.swing.SwingUtilities;
 
 import org.apache.commons.io.FilenameUtils;
@@ -35,10 +40,10 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
 
 		importQuestion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		fixHtmlQuestion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
+		
 		startBtn.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
-				getLibraries();
+				getProjects();
 				startBtn.setEnabled(false);
 				backBtn.setEnabled(false);
 			}
@@ -84,54 +89,69 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
 					report(" done\nCleaning...");
 					setup.clean();
 					report(" done\nAll done!");
-					startBtn.setEnabled(true);
-					backBtn.setEnabled(true);
+					//startBtn.setEnabled(true);
+					
 				} catch (final IOException ex) {
 					report("\n[error] " + ex.getMessage());
 					report("\nCleaning...");
 					setup.clean();
 					report("done");
 				}
+				backBtn.setEnabled(true);
 			}
 		}).start();
 	}
 	
-    private void getLibraries() {
-    	
-    	String path = Ctx.cfgSetup.projectsZipPath;
-    	if (path == null || !new File(path).isFile()) {
+	private void getProjects() {
+		Ctx.cfgSetup.projectsZipPath = FilenameUtils.getName(Ctx.libs.getProjectsUrl());
+		
+		boolean isLatest = false;
+		
+		try {
+			isLatest = isLatest(Ctx.libs.getProjectsUrl(), Ctx.cfgSetup.projectsZipPath);
+		} catch (Exception ex) {
+			report("\n[error] " + ex.getMessage());
+			backBtn.setEnabled(true);
+			return;
+		}
+		
+    	if (!isLatest) {
+    		
     		mainPanel.showDownloadPanel(new DownloadPanel.Callback() {
 				
 				@Override
 				public void completed() {
-					Ctx.cfgSetup.projectsZipPath = getZipPath(Ctx.libs.getProjectsUrl());
 					getLibraries();
 				}
-			}, Ctx.libs.getProjectsUrl(), FilenameUtils.getName(Ctx.libs.getProjectsUrl()));
-    		return;
+			}, Ctx.libs.getProjectsUrl(), Ctx.cfgSetup.projectsZipPath);
+    	} else {
+    		getLibraries();
     	}
+	}
+	
+    private void getLibraries() {
     	
+    	String path = null;
     	for (final String libraryName : Ctx.cfgSetup.libraries) {
-			path = Ctx.cfgSetup.librariesZipPaths.get(libraryName);
-			if (path == null || !new File(path).isFile()) {
+    		path = Ctx.cfgSetup.librariesZipPaths.get(libraryName);
+    		
+    		boolean isLatest = false;
+    		
+    		try {
+    			isLatest = isLatest(Ctx.libs.getDef(libraryName).stableUrl, path);
+    		} catch (Exception ex) {
+    			report("\n[error] " + ex.getMessage());
+    			backBtn.setEnabled(true);
+    			return;
+    		}
+			
+			if (!isLatest) {
 				getLatest(libraryName);
 				return;
 			}
 		}
     	
     	generate();
-    }
-
-    private String getZipPath(String url) {
-		String zipName = FilenameUtils.getName(url);
-
-		for (File file : new File(".").listFiles()) {
-			if (file.isFile()) {
-				if (file.getName().equals(zipName)) 
-					return file.getPath();
-			}
-		}
-		return null;
     }
     
     private void getLatest(final String libraryName) {
@@ -141,11 +161,19 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
 			
 			@Override
 			public void completed() {
-				Ctx.cfgSetup.librariesZipPaths.put(libraryName, getZipPath(input));
+				Ctx.cfgSetup.librariesZipPaths.put(libraryName, output);
 				getLibraries();
 			}
 		}, input, output);
 	}
+    
+    private boolean isLatest(String url, String filePath) throws MalformedURLException, IOException {
+    	HttpURLConnection connection = null;
+		connection = (HttpURLConnection) new URL(url).openConnection();
+		
+		File localFile = new File(filePath);
+    	return (localFile.isFile() && localFile.lastModified() >= connection.getLastModified());
+    }
 
 	private void report(final String txt) {
 		SwingUtilities.invokeLater(new Runnable() {
@@ -153,6 +181,12 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
 				progressArea.append(txt);
 			}
 		});
+	}
+	
+	public void reset() {
+		progressArea.setText(null);
+		startBtn.setEnabled(true);
+		backBtn.setEnabled(true);
 	}
 
 	// -------------------------------------------------------------------------

@@ -7,8 +7,8 @@
 1.0.0
 
 [projects]
-https://s3.amazonaws.com/flixel-gdx-setup-ui/projects-20130223.zip
+http://flixel-gdx.org/dist/projects.zip
 
 [libraries]
-libgdx           = https://s3.amazonaws.com/flixel-gdx-setup-ui/libgdx.txt
-flixel-android   = https://s3.amazonaws.com/flixel-gdx-setup-ui/flixel-gdx.txt
+libgdx           = http://flixel-gdx.org/dist/libgdx.txt
+flixel-android   = http://flixel-gdx.org/dist/flixel-gdx.txt

@@ -102,7 +102,7 @@ public class MainPanel extends PaintedPanel {
 		HttpUtils.setReferer("http://aurelienribon-dev.com/gdx-setup-ui");
 
 		versionLabel.initAndCheck("3.0.0", "versions",
-			"https://s3.amazonaws.com/flixel-gdx-setup-ui/config.txt",
+			"http://flixel-gdx.org/dist/config.txt",
 			"https://github.com/AurelienRibon/gdx-setup-ui/downloads");
 		//versionLabel.setVisible(false);
 		
@@ -493,6 +493,7 @@ public class MainPanel extends PaintedPanel {
 	}
 
 	public void showProcessSetupPanel() {
+		processSetupPanel.reset();
 		rootPanel.createTransition()
 			.push(new SLKeyframe(setupProcessCfg, transitionDuration)
 				.setEndSide(TOP, configSetupPanel, versionLabel)//, librarySelectionPanel)

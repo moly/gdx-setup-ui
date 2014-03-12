@@ -318,7 +318,7 @@ public class ConfigSetupPanel extends javax.swing.JPanel {
         
         genHtmlPrjChk.setSelected(Ctx.cfgSetup.isHtmlIncluded);
         genHtmlPrjChk.setText("Generate html project");
-        //genHtmlPrjChk.setVisible(false);
+        genHtmlPrjChk.setVisible(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

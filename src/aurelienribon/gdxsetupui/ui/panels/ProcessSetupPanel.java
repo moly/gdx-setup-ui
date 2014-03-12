@@ -69,14 +69,13 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
     }
 
 	public void generate() {
-		progressArea.setText("");
 
 		final ProjectSetup setup = new ProjectSetup(Ctx.cfgSetup, Ctx.libs);
 
 		new Thread(new Runnable() {
 			@Override public void run() {
 				try {
-					report("Decompressing projects...");
+					report(" done\nDecompressing projects...");
 					setup.inflateProjects();
 					report(" done\nDecompressing libraries...");
 					setup.inflateLibraries();
@@ -103,6 +102,9 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
 	}
 	
 	private void getProjects() {
+		progressArea.setText(null);
+		report("Finding required files...");
+		
 		Ctx.cfgSetup.projectsZipPath = FilenameUtils.getName(Ctx.libs.getProjectsUrl());
 		
 		boolean isLatest = false;
@@ -130,15 +132,17 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
 	}
 	
     private void getLibraries() {
-    	
+    	String url = null;
     	String path = null;
+    	
     	for (final String libraryName : Ctx.cfgSetup.libraries) {
-    		path = Ctx.cfgSetup.librariesZipPaths.get(libraryName);
+    		url = Ctx.libs.getDef(libraryName).stableUrl;
+    		path = FilenameUtils.getName(url);
     		
     		boolean isLatest = false;
     		
     		try {
-    			isLatest = isLatest(Ctx.libs.getDef(libraryName).stableUrl, path);
+    			isLatest = isLatest(url, path);
     		} catch (Exception ex) {
     			report("\n[error] " + ex.getMessage());
     			backBtn.setEnabled(true);
@@ -157,11 +161,11 @@ public class ProcessSetupPanel extends javax.swing.JPanel {
     private void getLatest(final String libraryName) {
 		final String input = Ctx.libs.getDef(libraryName).stableUrl;
 		final String output = FilenameUtils.getName(input);
+		Ctx.cfgSetup.librariesZipPaths.put(libraryName, output);
 		mainPanel.showDownloadPanel( new DownloadPanel.Callback() {
 			
 			@Override
 			public void completed() {
-				Ctx.cfgSetup.librariesZipPaths.put(libraryName, output);
 				getLibraries();
 			}
 		}, input, output);

@@ -156,7 +156,7 @@ public class ProjectSetup {
 
 		for (String library : cfg.libraries) {
 			LibraryDef def = libs.getDef(library);
-
+			
 			for (String file : def.libsCommon) {
 				if (!isLibJar(file)) continue;
 				String source = getSource(def.libsCommon, file);
